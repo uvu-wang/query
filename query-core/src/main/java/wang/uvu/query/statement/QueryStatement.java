@@ -11,6 +11,7 @@ import lombok.Data;
 
 @Data
 public class QueryStatement implements Statement {
+	
 	private Statement statement;
 	private List<Selection<?>> fields;
 	private PageRequest page;

@@ -11,7 +11,7 @@ public class LessThanOrEqualTo implements Statement {
 	private String fieldName;
 	private String[] values;
 	
-	public LessThanOrEqualTo(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName,String[] values){
+	public LessThanOrEqualTo(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName,String[] values) {
 		this.root = root;
 		this.criteriaBuilder = criteriaBuilder;
 		this.fieldName = fieldName;

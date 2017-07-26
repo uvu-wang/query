@@ -11,6 +11,7 @@ import lombok.Data;
 
 @Data
 public class Statements implements Statement {
+	
 	private List<Statement> statements = new ArrayList<Statement>();
 	private CriteriaBuilder criteriaBuilder;
 	private boolean disjunction;

@@ -4,7 +4,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public class Like implements Statement{
+public class Like implements Statement {
+	
 	private Root<?> root;
 	private CriteriaBuilder criteriaBuilder;
 	private String[] values;
@@ -18,7 +19,7 @@ public class Like implements Statement{
 	}
 
 	@Override
-	public Predicate toPredicate(){
+	public Predicate toPredicate() {
 		Predicate conjunction = criteriaBuilder.conjunction();
 		for (String value : values) {
 			Predicate predicate = criteriaBuilder.like(root.<String>get(fieldName), value);

@@ -161,7 +161,7 @@ public class QueryRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRe
 				list.add(domain);
 			}
 		}catch(Exception e){
-			throw new QueryException("查询结果封装异常：",e);
+			throw new QueryException(e);
 		}
 		return page(statement.getPage(), list, total);
 	}

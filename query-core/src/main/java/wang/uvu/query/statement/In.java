@@ -5,7 +5,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public class In extends AbstractStatement implements Statement{
+public class In extends AbstractStatement implements Statement {
 
 	public In(Root<?> root, CriteriaBuilder criteriaBuilder, String fieldName, String[] values) {
 		super(root, criteriaBuilder, fieldName, values);

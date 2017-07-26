@@ -5,13 +5,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 
-public class IsNull implements Statement{
+public class IsNull implements Statement {
 
 	private Root<?> root;
 	private CriteriaBuilder criteriaBuilder;
 	private String fieldName;
 	 
-	public IsNull(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName){
+	public IsNull(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName) {
 		this.root = root;
 		this.criteriaBuilder = criteriaBuilder;
 		this.fieldName = fieldName;

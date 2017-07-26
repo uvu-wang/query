@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Root;
 
-import wang.uvu.query.QueryException;
 import wang.uvu.query.statement.*;
 import wang.uvu.query.utils.BeanHelper;
 import wang.uvu.query.utils.StringUtils;
@@ -95,7 +94,11 @@ public class StatementBuilder {
 			return new IsEmpty(root, criteriaBuilder, fieldName);
 		case IS_NOT_EMPTY:
 			return new IsNotEmpty(root, criteriaBuilder, fieldName);
+		default:
+			if(values.length > 1){
+				return new In(root, criteriaBuilder, fieldName, values);
+			}
+			return new Equal(root, criteriaBuilder, fieldName, values);
 		}
-		throw new QueryException("不支持的操作符：" + operator);
 	}
 }

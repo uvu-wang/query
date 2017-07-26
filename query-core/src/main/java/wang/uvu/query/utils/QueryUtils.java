@@ -32,8 +32,8 @@ public class QueryUtils {
 			add(IS_EMPTY);
 			add(IS_NOT_EMPTY);
 			Collections.sort(this, new Comparator<String>() {
-				public int compare(String o1, String o2) {
-					return o2.length() - o1.length();
+				public int compare(String left, String right) {
+					return left.length() - right.length();
 				}
 			});
 		}
@@ -57,7 +57,6 @@ public class QueryUtils {
 	public static Class<?> getFieldType(Class<?> clz, String fieldName){
 		return getSupportType(getField(clz, fieldName).getType());
 	}
-	
 	
 	public static Field getField(Class<?> clz, String fieldName) {
 		try {

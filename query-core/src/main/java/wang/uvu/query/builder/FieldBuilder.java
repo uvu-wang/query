@@ -22,8 +22,8 @@ public class FieldBuilder {
 			try{
 				Selection<?> selection = root.get(name).alias(name);
 				fieldList.add(selection);
-			}catch(Exception e){
-				throw new QueryException("查询字段错误，" + root.getJavaType().getName() + "中不存在字段："  +  name ,e);
+			}catch(Exception e) {
+				throw new QueryException(e);
 			}
 		}
 		return fieldList;

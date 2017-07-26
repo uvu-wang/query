@@ -1,6 +1,7 @@
 package wang.uvu.query.utils;
 
 public final class StringUtils {
+	
 	public static boolean isBlank(String str) {
 		int strLen;
 		if (str == null || (strLen = str.length()) == 0) {

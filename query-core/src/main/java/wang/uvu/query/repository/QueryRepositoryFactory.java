@@ -18,6 +18,7 @@ public class QueryRepositoryFactory extends JpaRepositoryFactory {
 	public QueryRepositoryFactory(EntityManager entityManager) {
 		super(entityManager);
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected <T, ID extends Serializable> SimpleJpaRepository<?, ?> getTargetRepository(RepositoryMetadata metadata,
 			EntityManager entityManager) {

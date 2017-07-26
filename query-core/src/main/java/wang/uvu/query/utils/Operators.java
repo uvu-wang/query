@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Operators {
+	
 	public static final String EQUAL = "=";
 	public static final String NOT_EQUAL = "<>";
 	
@@ -49,8 +50,8 @@ public class Operators {
 			add(IS_EMPTY);
 			add(IS_NOT_EMPTY);
 			Collections.sort(this, new Comparator<String>() {
-				public int compare(String o1, String o2) {
-					return o2.length() - o1.length();
+				public int compare(String left, String right) {
+					return left.length() - right.length();
 				}
 			});
 		}

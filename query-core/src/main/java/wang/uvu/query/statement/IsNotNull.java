@@ -10,8 +10,7 @@ public class IsNotNull implements Statement {
 	private CriteriaBuilder criteriaBuilder;
 	private String fieldName;
 	
-	
-	public IsNotNull(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName){
+	public IsNotNull(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName) {
 		this.root = root;
 		this.criteriaBuilder = criteriaBuilder;
 		this.fieldName = fieldName;
