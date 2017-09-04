@@ -17,7 +17,7 @@ import wang.uvu.query.statement.Statement;
 @Data
 public class QueryBuilder {
 	
-	public static QueryStatement build(Root<?> root, CriteriaBuilder criteriaBuilder,Query query) {
+	public static QueryStatement build(Root<?> root, CriteriaBuilder criteriaBuilder,Query<?> query) {
 		QueryStatement stmt = new QueryStatement();
 		List<Selection<?>> fields = FieldBuilder.build(root, query);
 		PageRequest page = PageBuilder.build(query);

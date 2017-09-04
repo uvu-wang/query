@@ -45,14 +45,14 @@ public class QueryRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRe
 	}
 
 	@Override
-	public <Q extends Query> Page<T> findAll(Q query) {
+	public <Q extends Query<?>> Page<T> findAll(Q query) {
 		if(StringUtils.isBlank(query.getFields_())){
 			return select(query);
 		}
 		return multiselect(query);
 	}
 
-	private <Q extends Query> Page<T> select(Q query){
+	private <Q extends Query<?>> Page<T> select(Q query){
 		Class<T> domainClass = getDomainClass();
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(domainClass);
@@ -86,7 +86,7 @@ public class QueryRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRe
 		return new PageImpl<T>(new ArrayList<T>(), page, total);
 	}
 	
-	private <Q extends Query> long count(Q query){
+	private <Q extends Query<?>> long count(Q query){
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		Root<T> root = criteriaQuery.from(getDomainClass());
@@ -118,7 +118,7 @@ public class QueryRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRe
 		}
 	}
 	
-	private <Q extends Query> Page<T> multiselect(Q query){
+	private <Q extends Query<?>> Page<T> multiselect(Q query){
 		Class<T> domainClass = getDomainClass();
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createTupleQuery();

@@ -24,8 +24,8 @@ public class DemoController {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	@RequestMapping(value = "/api/accounts", method = RequestMethod.GET)
-	public Page<Account> query(AccountQuery query) {
+	@RequestMapping(value = "/api/accounts2", method = RequestMethod.POST)
+	public Page<Account> query(@RequestBody AccountQuery query) {
 		return accountRepository.findAll(query);
 	}
 	
@@ -34,7 +34,7 @@ public class DemoController {
 		return accountRepository.save(account);
 	}
 	
-	@PostConstruct
+	//@PostConstruct
 	public void init(){
 		int size = 0;
 		while (size++ < 1000) {

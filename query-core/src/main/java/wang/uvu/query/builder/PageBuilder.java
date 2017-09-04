@@ -10,7 +10,7 @@ import wang.uvu.query.Query;
 
 public class PageBuilder {
 
-	public static PageRequest build(Query query) {
+	public static PageRequest build(Query<?> query) {
 		List<Order> orders = OrderBuilder.build(query);
 		if (!orders.isEmpty()) {
 			return new PageRequest((query.getPage_() - 1),query.getSize_(),

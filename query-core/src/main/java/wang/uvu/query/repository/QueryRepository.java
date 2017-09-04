@@ -9,5 +9,5 @@ import wang.uvu.query.Query;
 @NoRepositoryBean
 public interface QueryRepository<T> {
 	
-	<Q extends Query> Page<T> findAll(Q query);
+	<Q extends Query<?>> Page<T> findAll(Q query);
 }

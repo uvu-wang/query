@@ -2,6 +2,7 @@ package wang.uvu.query.builder;
 
 import static wang.uvu.query.utils.Operators.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import wang.uvu.query.Query;
 
 public class StatementBuilder {
 	
-	public static Statement build(Root<?> root, CriteriaBuilder criteriaBuilder, Query query) {
+	public static Statement build(Root<?> root, CriteriaBuilder criteriaBuilder, Query<?> query) {
 		Map<String, String> map = BeanHelper.describe(query);
 		Statements statements = new Statements(criteriaBuilder,query.isOr_());
 		Set<String> keySet = map.keySet();
@@ -32,6 +33,14 @@ public class StatementBuilder {
 				subStmt.add(statement);
 			}
 			statements.add(subStmt);
+		}
+		@SuppressWarnings("unchecked")
+		List<Query<?>> querys_ = (List<Query<?>>) query.getQuerys_();
+		if(querys_ != null && !querys_.isEmpty()) {
+			for (Query<?> query_ : querys_) {
+				Statement subStmt = build(root, criteriaBuilder, query_);
+				statements.add(subStmt);
+			}
 		}
 		return statements;
 	}

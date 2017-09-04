@@ -8,7 +8,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper=true)
-public class AccountQuery extends Query{
+public class AccountQuery extends Query<AccountQuery>{
 	private String accountId;
 	private String level;
 	private String amount;
