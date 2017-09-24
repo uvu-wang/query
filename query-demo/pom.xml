@@ -4,9 +4,9 @@
 	<parent>
 		<groupId>wang.uvu.query</groupId>
 		<artifactId>query</artifactId>
-		<version>${project.version}</version>
+		<version>1.1.1</version>
 	</parent>
-	<artifactId>query-test</artifactId>
+	<artifactId>query-demo</artifactId>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>wang.uvu.query</groupId>
 			<artifactId>query-core</artifactId>
-			<version>${project.version}</version>
+			<version>1.1.1</version>
 		</dependency>
 	</dependencies>
 </project>

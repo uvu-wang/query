@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>wang.uvu.query</groupId>
 		<artifactId>query</artifactId>
-		<version>${project.version}</version>
+		<version>1.1.1</version>
 	</parent>
 	<properties>
-		<spring-boot-starter-data-jpa.version>1.4.2.RELEASE</spring-boot-starter-data-jpa.version>
+		<spring-boot-starter-data-jpa.version>1.5.7.RELEASE</spring-boot-starter-data-jpa.version>
 		<lombok.version>1.16.10</lombok.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
 	</properties>
