@@ -6,15 +6,16 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(callSuper=true)
-@ToString(callSuper=true)
-public class AccountQuery extends Query<AccountQuery>{
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class AccountQuery extends Query {
+	
 	private String accountId;
 	private String level;
 	private String amount;
 	private String balance;
 	private String freezeAmount;
 	private String createAt;
-	private String version;
+	private Integer[] version;
 	private String disable;
 }

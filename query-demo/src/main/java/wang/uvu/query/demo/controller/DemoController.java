@@ -34,9 +34,9 @@ public class DemoController {
 		return accountRepository.save(account);
 	}
 	
-	//@PostConstruct
+	@PostConstruct
 	public void init(){
-		int size = 0;
+		int size = 1;
 		while (size++ < 1000) {
 			Account account = new Account();
 			account.setDisable(size%2 == 0);

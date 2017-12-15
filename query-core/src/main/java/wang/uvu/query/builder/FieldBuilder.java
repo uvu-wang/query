@@ -11,7 +11,7 @@ import wang.uvu.query.utils.StringUtils;
 
 public class FieldBuilder {
 
-	public static List<Selection<?>> build(Root<?> root, Query<?> query) {
+	public static List<Selection<?>> build(Root<?> root, Query query) {
 		String fields = query.getFields_();
 		List<Selection<?>> fieldList = new ArrayList<Selection<?>>();
 		if(StringUtils.isBlank(fields)){

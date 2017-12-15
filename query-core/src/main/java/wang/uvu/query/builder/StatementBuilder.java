@@ -2,7 +2,6 @@ package wang.uvu.query.builder;
 
 import static wang.uvu.query.utils.Operators.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,70 +9,49 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Root;
 
 import wang.uvu.query.statement.*;
-import wang.uvu.query.utils.BeanHelper;
 import wang.uvu.query.utils.StringUtils;
+import wang.uvu.query.utils.Operators;
 import wang.uvu.query.utils.QueryUtils;
 import wang.uvu.query.Query;
 
 public class StatementBuilder {
-	
-	public static Statement build(Root<?> root, CriteriaBuilder criteriaBuilder, Query<?> query) {
-		Map<String, String> map = BeanHelper.describe(query);
-		Statements statements = new Statements(criteriaBuilder,query.isOr_());
+
+	public static Statement build(Root<?> root, CriteriaBuilder criteriaBuilder, Query query) {
+		Map<String, String> map = QueryUtils.describe(query);
+		Statements statements = new Statements(criteriaBuilder, query.isOr_());
 		Set<String> keySet = map.keySet();
 		for (String fieldName : keySet) {
-			String expression = map.get(fieldName);
-			if (QueryUtils.ignore(fieldName) || StringUtils.isBlank(expression)) {
+			String rootExpression = map.get(fieldName);
+			if (StringUtils.isBlank(rootExpression)) {
 				continue;
 			}
-			//属性之间使用or
-			Statements subStmt = new Statements(criteriaBuilder,true);
-			for (String var : expression.split("\\|")) {
-				Statements statement = buildStatements(root, criteriaBuilder,fieldName, var);
-				subStmt.add(statement);
-			}
-			statements.add(subStmt);
-		}
-		@SuppressWarnings("unchecked")
-		List<Query<?>> querys_ = (List<Query<?>>) query.getQuerys_();
-		if(querys_ != null && !querys_.isEmpty()) {
-			for (Query<?> query_ : querys_) {
-				Statement subStmt = build(root, criteriaBuilder, query_);
-				statements.add(subStmt);
-			}
+			Statements statement = buildStatements(root, criteriaBuilder, fieldName, rootExpression);
+			statements.add(statement);
 		}
 		return statements;
 	}
- 
-	private static Statements buildStatements(Root<?> root, CriteriaBuilder criteriaBuilder, String fieldName, String expression) {
-		StringBuffer buffer = new StringBuffer();
-		Statements stmt = new Statements(criteriaBuilder);
-		for (String s : expression.split(",")) {
-			for (String operator : ALL) {
-				if (s.startsWith(operator) && buffer.length() > 0) {//操作符开头，且存在buffer,意味着当前操作符结束了
-					String childExp = buffer.toString().substring(1); 
-					Statement statement = buildStatement(root, criteriaBuilder, fieldName, childExp);
-					stmt.add(statement);
-					buffer.setLength(0);
-					continue ;
-				}
+
+	private static Statements buildStatements(Root<?> root, CriteriaBuilder criteriaBuilder, String fieldName, String rootExpression) {
+		Statements rootStatements = new Statements(criteriaBuilder, true);
+		String[] groupExpressions  = rootExpression.split("\\" + Operators.OR);
+		for (String groupExpression : groupExpressions) {
+			String[] plainExpressions = groupExpression.split(Operators.AND);
+			Statements statements = new Statements(criteriaBuilder);
+			for (String plainExpression : plainExpressions) {
+				Statement statement = buildStatement(root, criteriaBuilder, fieldName, plainExpression);
+				statements.add(statement);
 			}
-			buffer.append(",").append(s);
+			rootStatements.add(statements);
 		}
-		if (buffer.length() > 0) {//这个是最后一个了（唯一一个也是最后一个）
-			String childExp = buffer.toString().substring(1); 
-			Statement statement = buildStatement(root, criteriaBuilder, fieldName, childExp);
-			stmt.add(statement);
-		}
-		return stmt;
+		return rootStatements;
 	}
-	
-	private static Statement buildStatement(Root<?> root, CriteriaBuilder criteriaBuilder,String fieldName, String expression) {
-		String operator = QueryUtils.getOperator(expression);
-		String[] values = QueryUtils.getValues(expression, operator);
+
+	private static Statement buildStatement(Root<?> root, CriteriaBuilder criteriaBuilder, String fieldName, String plainExpression) {
+		String operator = QueryUtils.getOperator(plainExpression);
+		String[] values = QueryUtils.getValues(plainExpression, operator);
 		switch (operator) {
 		case EQUAL:
-			if(values.length > 1){
+			if (values.length > 1) {
 				return new In(root, criteriaBuilder, fieldName, values);
 			}
 			return new Equal(root, criteriaBuilder, fieldName, values);
@@ -104,7 +82,7 @@ public class StatementBuilder {
 		case IS_NOT_EMPTY:
 			return new IsNotEmpty(root, criteriaBuilder, fieldName);
 		default:
-			if(values.length > 1){
+			if (values.length > 1) {
 				return new In(root, criteriaBuilder, fieldName, values);
 			}
 			return new Equal(root, criteriaBuilder, fieldName, values);

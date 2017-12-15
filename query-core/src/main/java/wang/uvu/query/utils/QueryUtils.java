@@ -5,14 +5,18 @@ import static wang.uvu.query.utils.Operators.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import wang.uvu.query.Query;
 
 public class QueryUtils {
 
-	public static final List<String> IGNORES = Arrays.asList("orders_",
-			"page_", "size_", "or_", "querys_", "fields_");
+	public static final List<String> IGNORES = Arrays.asList("orders_", "page_", "size_", "or_", "querys_", "fields_");
 
 	public static final List<String> OPERATOR_ALL = new ArrayList<String>() {
 		private static final long serialVersionUID = 1L;
@@ -53,11 +57,11 @@ public class QueryUtils {
 			return type;
 		}
 	}
-	
-	public static Class<?> getFieldType(Class<?> clz, String fieldName){
+
+	public static Class<?> getFieldType(Class<?> clz, String fieldName) {
 		return getSupportType(getField(clz, fieldName).getType());
 	}
-	
+
 	public static Field getField(Class<?> clz, String fieldName) {
 		try {
 			return clz.getDeclaredField(fieldName);
@@ -67,7 +71,7 @@ public class QueryUtils {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static String getOperator(String s) {
 		for (String operator : OPERATOR_ALL) {
 			if (s.startsWith(operator)) {
@@ -89,5 +93,35 @@ public class QueryUtils {
 
 	public static boolean ignore(String name) {
 		return IGNORES.contains(name);
+	}
+
+	/**
+	 * 会忽略掉·关键字·字段
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String, String> describe(Query query) {
+		Field[] fields = query.getClass().getDeclaredFields();
+		Map<String, String> map = new HashMap<String, String>();
+		for (Field field : fields) {
+			Object value;
+			try {
+				field.setAccessible(true);
+				value = field.get(query);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			String name = field.getName();
+			if (value == null || ignore(name)) {
+				continue;
+			}
+			if (field.getType().isArray()) {
+				map.put(name, StringUtils.join((Object[]) value));
+			} else if (field.getType().isAssignableFrom(Collection.class)) {
+				map.put(name, StringUtils.join((Collection<Object>) value));
+			} else {
+				map.put(name, ConvertHelper.convert(value));
+			}
+		}
+		return map;
 	}
 }

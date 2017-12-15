@@ -13,7 +13,7 @@ public class OrderBuilder {
 	
 	private static final String  KEY_REGEX = "^[" + Operators.SORT_ASC + "|" + Operators.SORT_DESC + "]";
 
-	public static List<Order> build(Query<?> query) {
+	public static List<Order> build(Query query) {
 		List<Order> orderList = new ArrayList<Order>();
 		String orders = query.getOrders_();
 		if(orders != null){

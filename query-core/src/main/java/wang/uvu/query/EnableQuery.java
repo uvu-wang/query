@@ -14,6 +14,6 @@ import wang.uvu.query.repository.QueryRepositoryFactoryBean;
 @Target(ElementType.TYPE)
 @Documented
 @EnableJpaRepositories(repositoryFactoryBeanClass = QueryRepositoryFactoryBean.class)
-public @interface EnableDslQuery {
+public @interface EnableQuery {
 
 }
